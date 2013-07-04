@@ -4,5 +4,9 @@
     <string name="app_name">CurrencyConverter</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="amount">Amount</string>
 
 </resources>
