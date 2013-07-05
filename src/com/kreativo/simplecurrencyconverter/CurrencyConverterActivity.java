@@ -61,17 +61,10 @@ public class CurrencyConverterActivity extends SherlockActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		// Create the adView
 	    adView = new AdView(this, AdSize.BANNER, "a151d70cf75e5a8");
-
 	    TableRow layout = (TableRow)findViewById(R.id.adTableRow);
-
-	    // Add the adView to it
 	    layout.addView(adView);
-
-	    // Initiate a generic request to load it with an ad
-	    adView.loadAd(new AdRequest());
-	    
+	    adView.loadAd(new AdRequest());	    
 	    
 		fromSpinner = (Spinner) findViewById(R.id.fromCurrencySpinner);
 		toSpinner = (Spinner) findViewById(R.id.toCurrencySpinner);
@@ -126,8 +119,7 @@ public class CurrencyConverterActivity extends SherlockActivity {
 		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, getResources()
 						.getStringArray(R.array.currencies));
-		dataAdapter
-				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		fromSpinner.setAdapter(dataAdapter);
 		toSpinner.setAdapter(dataAdapter);
 
