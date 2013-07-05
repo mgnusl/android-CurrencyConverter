@@ -28,34 +28,51 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.SubMenu;
+import com.google.ads.AdRequest;
+import com.google.ads.AdSize;
+import com.google.ads.AdView;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
 @SuppressLint("SimpleDateFormat")
-public class MainActivity extends SherlockActivity {
+public class CurrencyConverterActivity extends SherlockActivity {
 
 	private static final String TAG = "APP";
 
-	private TextView resultTV, toCurrencyTV, fromCurrencyTV, lastUpdatedTV;
+	private TextView toCurrencyTV, fromCurrencyTV, lastUpdatedTV;
 	private EditText amountET, resultET;
 	private Spinner fromSpinner, toSpinner;
 	private Button calculateButton, arrowButton;
 
 	private String toCurrency, fromCurrency;
 	private double currencyRate, amount;
+	private AdView adView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		// Create the adView
+	    adView = new AdView(this, AdSize.BANNER, "a151d70cf75e5a8");
 
+	    TableRow layout = (TableRow)findViewById(R.id.adTableRow);
+
+	    // Add the adView to it
+	    layout.addView(adView);
+
+	    // Initiate a generic request to load it with an ad
+	    adView.loadAd(new AdRequest());
+	    
+	    
 		fromSpinner = (Spinner) findViewById(R.id.fromCurrencySpinner);
 		toSpinner = (Spinner) findViewById(R.id.toCurrencySpinner);
 		calculateButton = (Button) findViewById(R.id.calculateButton);
@@ -116,21 +133,25 @@ public class MainActivity extends SherlockActivity {
 
 	}
 
-	public void calculateCurrency() {
+	private void calculateCurrency() {
 
 		toCurrency = (String) toSpinner.getSelectedItem();
 		toCurrency = toCurrency.substring(0, Math.min(3, toCurrency.length()));
 
 		fromCurrency = (String) fromSpinner.getSelectedItem();
-		fromCurrency = fromCurrency.substring(0,
-				Math.min(3, fromCurrency.length()));
+		fromCurrency = fromCurrency.substring(0, Math.min(3, fromCurrency.length()));
 
 		if (amountET.getText().toString().matches("")) {
-			Crouton.makeText(this, "Amount cannot be empty..", Style.ALERT)
-					.show();
+			Crouton.makeText(this, "Amount cannot be empty..", Style.ALERT).show();
 			amount = 0;
 			return;
-		} else {
+		}
+		else if((amountET.getText().toString().length() == 1) 
+				&& (Character.toString(amountET.getText().toString().charAt(0)).equals("."))) {
+			Crouton.makeText(this, "Invalid amount", Style.ALERT).show();
+			return;
+		}
+		else {
 			amount = Double.parseDouble(amountET.getText().toString());
 		}
 
@@ -162,19 +183,19 @@ public class MainActivity extends SherlockActivity {
 			} catch (JSONException e) {
 				e.printStackTrace();
 				Crouton.makeText(
-						MainActivity.this,
+						CurrencyConverterActivity.this,
 						"An error occurred while fetching the latest currency rates",
 						Style.ALERT).show();
 			} catch (ClientProtocolException e) {
 				e.printStackTrace();
 				Crouton.makeText(
-						MainActivity.this,
+						CurrencyConverterActivity.this,
 						"An error occurred while fetching the latest currency rates",
 						Style.ALERT).show();
 			} catch (IOException e) {
 				e.printStackTrace();
 				Crouton.makeText(
-						MainActivity.this,
+						CurrencyConverterActivity.this,
 						"An error occurred while fetching the latest currency rates",
 						Style.ALERT).show();
 			}
@@ -186,13 +207,13 @@ public class MainActivity extends SherlockActivity {
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
-			// currencyrate is fetched, continue calculating
+			// currency rate is fetched correctly, continue calculating
 			continueCalculate();
 		}
 
 	}
 
-	public void continueCalculate() {
+	private void continueCalculate() {
 
 		double result = amount * currencyRate;
 		DecimalFormat df = new DecimalFormat("#.##");
@@ -227,12 +248,30 @@ public class MainActivity extends SherlockActivity {
 
 		return builder.toString();
 	}
+	
 
 	@Override
 	protected void onDestroy() {
+		if (adView != null) {
+			adView.destroy();
+		}
 		super.onDestroy();
 		Crouton.cancelAllCroutons();
 	}
+
+
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+		adView.loadAd(new AdRequest());
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		adView.loadAd(new AdRequest());
+	}
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
