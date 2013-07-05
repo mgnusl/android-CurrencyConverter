@@ -15,6 +15,10 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.actionbarsherlock.app.SherlockActivity;
+
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,12 +30,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends SherlockActivity {
 
 	private static final String TAG = "APP";
 	
 	private TextView resultTV;
-	private EditText amountET;
+	private EditText amountET, resultET;
 	private Spinner fromSpinner, toSpinner;
 	private Button calculateButton;
 	
@@ -48,10 +52,12 @@ public class MainActivity extends Activity {
 		calculateButton = (Button)findViewById(R.id.calculateButton);
 		resultTV = (TextView)findViewById(R.id.resultTV);
 		amountET = (EditText)findViewById(R.id.amountET);
+		resultET = (EditText)findViewById(R.id.resultET);
 		
 		setSpinnerAdapter();
 		
 		currencyRate = 0;
+		amount = 0;
 				
 		calculateButton.setOnClickListener(new OnClickListener() {
 
@@ -82,8 +88,15 @@ public class MainActivity extends Activity {
 
 		fromCurrency = (String) fromSpinner.getSelectedItem();
 		fromCurrency = fromCurrency.substring(0, Math.min(3, fromCurrency.length()));
-
-		amount = Double.parseDouble(amountET.getText().toString());
+		
+		if(amountET.getText().toString().matches("")) {
+			Crouton.makeText(this, "Amount cannot be empty..", Style.ALERT).show();
+			amount = 0;
+			return;
+		}
+		else {
+			amount = Double.parseDouble(amountET.getText().toString());
+		}
 
 		new DownloadJSON().execute();
 							
@@ -133,7 +146,7 @@ public class MainActivity extends Activity {
 		
 		double result = amount * currencyRate;
 		DecimalFormat df = new DecimalFormat("#.##");
-		resultTV.setText(df.format(result));
+		resultET.setText(df.format(result));
 		
 	}
 
