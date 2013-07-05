@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.kreativo.simplecurrencyconverter"
-    android:versionCode="1"
+    android:versionCode="2"
     android:versionName="1.0" >
 
     <uses-sdk
@@ -15,7 +15,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Sherlock.__Theme.Light" >
+        android:theme="@style/Theme.Sherlock.Light" >
         <activity
             android:name="com.kreativo.simplecurrencyconverter.CurrencyConverterActivity"
             android:label="@string/app_name" >
