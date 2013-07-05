@@ -17,6 +17,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
@@ -37,6 +38,7 @@ import com.actionbarsherlock.view.SubMenu;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
+@SuppressLint("SimpleDateFormat")
 public class MainActivity extends SherlockActivity {
 
 	private static final String TAG = "APP";
@@ -44,7 +46,7 @@ public class MainActivity extends SherlockActivity {
 	private TextView resultTV, toCurrencyTV, fromCurrencyTV, lastUpdatedTV;
 	private EditText amountET, resultET;
 	private Spinner fromSpinner, toSpinner;
-	private Button calculateButton;
+	private Button calculateButton, arrowButton;
 
 	private String toCurrency, fromCurrency;
 	private double currencyRate, amount;
@@ -57,6 +59,7 @@ public class MainActivity extends SherlockActivity {
 		fromSpinner = (Spinner) findViewById(R.id.fromCurrencySpinner);
 		toSpinner = (Spinner) findViewById(R.id.toCurrencySpinner);
 		calculateButton = (Button) findViewById(R.id.calculateButton);
+		arrowButton = (Button) findViewById(R.id.arrowButton);
 		toCurrencyTV = (TextView) findViewById(R.id.toCurrencyTV);
 		fromCurrencyTV = (TextView) findViewById(R.id.fromCurrencyTV);
 		lastUpdatedTV = (TextView) findViewById(R.id.lastUpdateTV);
@@ -74,6 +77,28 @@ public class MainActivity extends SherlockActivity {
 			public void onClick(View v) {
 				calculateCurrency();
 			}
+		});
+		
+		arrowButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				String prevFrom = (String)fromSpinner.getSelectedItem();
+				String prevTo = (String)toSpinner.getSelectedItem();
+				
+				@SuppressWarnings("rawtypes")
+				ArrayAdapter myAdap = (ArrayAdapter) fromSpinner.getAdapter();
+
+				@SuppressWarnings("unchecked")
+				int spinnerPositionFrom = myAdap.getPosition(prevFrom);
+				@SuppressWarnings("unchecked")
+				int spinnerPositionTo = myAdap.getPosition(prevTo);
+
+				toSpinner.setSelection(spinnerPositionFrom);
+				fromSpinner.setSelection(spinnerPositionTo);
+				
+			}
+			
 		});
 
 	}
@@ -176,6 +201,9 @@ public class MainActivity extends SherlockActivity {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		String currentDateandTime = sdf.format(new Date());
 		lastUpdatedTV.setText("Last update: " + currentDateandTime);
+		
+		if(toCurrency.equals(fromCurrency))
+			resultET.setText(Double.toString(amount));
 
 	}
 

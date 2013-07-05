@@ -28,6 +28,7 @@
         <item>BYR - Belarus Ruble</item>
         <item>BZD - Belize Dollar</item>
         <item>CAD - Canadian Dollar</item>
+        <item>CHF - Swiss Franc</item>
         <item>CLP - Chilean Peso</item>
         <item>CNY - Chinese Yuan</item>
         <item>COP - Colombian Peso</item>
@@ -44,8 +45,10 @@
         <item>EGP - Egyptian Pound</item>
         <item>ERN - Eritrea Nakfa</item>
         <item>ETB - Ethiopian Birr</item>
+        <item>EUR - Euro</item>
         <item>FJD - Fiji Dollar</item>
         <item>FKP - Falkland Islands Pound</item>
+        <item>GBP - British Pound</item>
         <item>GHC - Ghanian Cedi</item>
         <item>GIP - Gibraltar Pound</item>
         <item>GMD - Gambian Dalasi</item>
@@ -65,6 +68,7 @@
         <item>ISK - Iceland Krona</item>
         <item>JMD - Jamaican Dollar</item>
         <item>JOD - Jordanian Dinar</item>
+        <item>JPY - Japanese Yen</item>
         <item>KES - Kenyan Shilling</item>
         <item>KHR - Cambodia Riel</item>
         <item>KMF - Comoros Franc</item>
@@ -136,6 +140,7 @@
         <item>TZS - Tanzanian Shilling</item>
         <item>UAH - Ukraine Hryvnia</item>
         <item>UGX - Ugandan Shilling</item>
+        <item>USD - United States Dollar</item>
         <item>UYU - Uruguayan New Peso</item>
         <item>VEF - Venezuelan Bolivar Fuerte</item>
         <item>VND - Vietnam Dong</item>

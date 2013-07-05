@@ -25,7 +25,6 @@
             android:id="@+id/arrowButton"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="0dip"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/arrow" />
 
@@ -65,7 +64,6 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/from"
             android:textSize="15sp" />
     </TableRow>
 
@@ -96,7 +94,6 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/to"
             android:textSize="15sp" />
     </TableRow>
 
@@ -109,6 +106,7 @@
             android:id="@+id/calculateButton"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:minHeight="60dp"
             android:text="@string/convert" />
     </TableRow>
 
@@ -123,7 +121,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="Last update: 15/1 1231231 " />
+            android:text="" />
     </TableRow>
 
 </TableLayout>
