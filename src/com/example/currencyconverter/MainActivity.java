@@ -16,6 +16,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.SubMenu;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -29,12 +32,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends SherlockActivity {
 
 	private static final String TAG = "APP";
 	
-	private TextView resultTV;
+	private TextView resultTV, toCurrencyTV, fromCurrencyTV;
 	private EditText amountET, resultET;
 	private Spinner fromSpinner, toSpinner;
 	private Button calculateButton;
@@ -50,7 +54,8 @@ public class MainActivity extends SherlockActivity {
 		fromSpinner = (Spinner)findViewById(R.id.fromCurrencySpinner);
 		toSpinner = (Spinner)findViewById(R.id.toCurrencySpinner);
 		calculateButton = (Button)findViewById(R.id.calculateButton);
-		resultTV = (TextView)findViewById(R.id.resultTV);
+		toCurrencyTV = (TextView)findViewById(R.id.toCurrencyTV);
+		fromCurrencyTV = (TextView)findViewById(R.id.fromCurrencyTV);
 		amountET = (EditText)findViewById(R.id.amountET);
 		resultET = (EditText)findViewById(R.id.resultET);
 		
@@ -97,6 +102,9 @@ public class MainActivity extends SherlockActivity {
 		else {
 			amount = Double.parseDouble(amountET.getText().toString());
 		}
+		
+		toCurrencyTV.setText(toCurrency);
+		fromCurrencyTV.setText(fromCurrency);
 
 		new DownloadJSON().execute();
 							
@@ -117,16 +125,18 @@ public class MainActivity extends SherlockActivity {
 				JSONObject results = query.getJSONObject("results");
 				currencyRate = Double.parseDouble(results.getJSONObject("rate").getString("Rate"));
 							
-
-			} 
+			}
 			catch (JSONException e) {
 				e.printStackTrace();
+				Crouton.makeText(MainActivity.this, "An error occurred while fetching the latest currency rates", Style.ALERT).show();
 			} 
 			catch (ClientProtocolException e) {
 				e.printStackTrace();
+				Crouton.makeText(MainActivity.this, "An error occurred while fetching the latest currency rates", Style.ALERT).show();
 			} 
 			catch (IOException e) {
 				e.printStackTrace();
+				Crouton.makeText(MainActivity.this, "An error occurred while fetching the latest currency rates", Style.ALERT).show();
 			}
 
 			return null;
@@ -169,4 +179,25 @@ public class MainActivity extends SherlockActivity {
 		return builder.toString();
 	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		Crouton.cancelAllCroutons();
+	}
+	
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        SubMenu sub = menu.addSubMenu("More");
+        sub.add(0, 1, 0, "About");
+        sub.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+        return true;
+    }
+	
+	@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == 1) {
+            Toast.makeText(this, "TLOL" + item.getTitle() + "\"", Toast.LENGTH_SHORT).show();
+        }
+        return true;
+    }
 }
