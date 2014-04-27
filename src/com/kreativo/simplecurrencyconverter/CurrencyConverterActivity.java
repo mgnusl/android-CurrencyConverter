@@ -8,6 +8,10 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.SubMenu;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -31,20 +35,13 @@ import android.widget.Spinner;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.SubMenu;
-import com.google.ads.AdRequest;
-import com.google.ads.AdSize;
-import com.google.ads.AdView;
 import com.google.analytics.tracking.android.EasyTracker;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
 @SuppressLint("SimpleDateFormat")
-public class CurrencyConverterActivity extends SherlockActivity {
+public class CurrencyConverterActivity extends ActionBarActivity {
 
 	private static final String TAG = "APP";
 
@@ -55,17 +52,17 @@ public class CurrencyConverterActivity extends SherlockActivity {
 
 	private String toCurrency, fromCurrency;
 	private double currencyRate, amount;
-	private AdView adView;
+	//private AdView adView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-	    adView = new AdView(this, AdSize.BANNER, "a151d70cf75e5a8");
+	    /*adView = new AdView(this, AdSize.BANNER, "a151d70cf75e5a8");
 	    TableRow layout = (TableRow)findViewById(R.id.adTableRow);
 	    layout.addView(adView);
-	    adView.loadAd(new AdRequest());	    
+	    adView.loadAd(new AdRequest());	  */
 	    
 		fromSpinner = (Spinner) findViewById(R.id.fromCurrencySpinner);
 		toSpinner = (Spinner) findViewById(R.id.toCurrencySpinner);
@@ -245,9 +242,9 @@ public class CurrencyConverterActivity extends SherlockActivity {
 
 	@Override
 	protected void onDestroy() {
-		if (adView != null) {
+		/*if (adView != null) {
 			adView.destroy();
-		}
+		}*/
 		super.onDestroy();
 		Crouton.cancelAllCroutons();
 	}
@@ -256,13 +253,13 @@ public class CurrencyConverterActivity extends SherlockActivity {
 	@Override
 	protected void onRestart() {
 		super.onRestart();
-		adView.loadAd(new AdRequest());
+		//adView.loadAd(new AdRequest());
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		adView.loadAd(new AdRequest());
+		//adView.loadAd(new AdRequest());
 	}
 	
 

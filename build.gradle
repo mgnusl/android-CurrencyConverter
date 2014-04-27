@@ -1,0 +1,52 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.9.0'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'android'
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion '19.0.3'
+
+    defaultConfig {
+        minSdkVersion 11
+        targetSdkVersion 19
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            res.srcDirs = ['res']
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    compile('de.keyboardsurfer.android.widget:crouton:1.8.4') {
+        exclude group: 'com.google.android', module: 'support-v4'
+    }
+    compile 'com.google.android.gms:play-services:4.2.+'
+    compile 'com.github.eluleci:flatui:0.1.3'
+    compile 'com.android.support:appcompat-v7:+'
+
+    compile fileTree(dir: 'libs', includes: ['*.jar'])
+}
