@@ -40,8 +40,6 @@ import java.util.Date;
 @SuppressLint("SimpleDateFormat")
 public class CurrencyConverterActivity extends ActionBarActivity {
 
-    private static final String TAG = "APP";
-
     private TextView toCurrencyTV, fromCurrencyTV, lastUpdatedTV;
     private EditText amountET, resultET;
     private Spinner fromSpinner, toSpinner;
@@ -59,7 +57,7 @@ public class CurrencyConverterActivity extends ActionBarActivity {
 
         // Actionbar style
         FlatUI.setActionBarTheme(this, FlatUI.DARK, false, true);
-        getSupportActionBar().setBackgroundDrawable(FlatUI.getActionBarDrawable(FlatUI.DEEP, false));
+        getSupportActionBar().setBackgroundDrawable(FlatUI.getActionBarDrawable(FlatUI.DARK, false));
         getActionBar().setTitle(Html.fromHtml("<font color=\"#f2f2f2\">" + getResources().getString(R.string.app_name)
                 + "</font>"));
 
@@ -179,22 +177,34 @@ public class CurrencyConverterActivity extends ActionBarActivity {
 
             } catch (JSONException e) {
                 e.printStackTrace();
-                Crouton.makeText(
-                        CurrencyConverterActivity.this,
-                        "An error occurred while fetching the latest currency rates",
-                        Style.ALERT).show();
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        Crouton.makeText(
+                                CurrencyConverterActivity.this,
+                                "An error occurred while fetching the latest currency rates",
+                                Style.ALERT).show();
+                    }
+                });
             } catch (ClientProtocolException e) {
                 e.printStackTrace();
-                Crouton.makeText(
-                        CurrencyConverterActivity.this,
-                        "An error occurred while fetching the latest currency rates",
-                        Style.ALERT).show();
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        Crouton.makeText(
+                                CurrencyConverterActivity.this,
+                                "An error occurred while fetching the latest currency rates",
+                                Style.ALERT).show();
+                    }
+                });
             } catch (IOException e) {
                 e.printStackTrace();
-                Crouton.makeText(
-                        CurrencyConverterActivity.this,
-                        "An error occurred while fetching the latest currency rates",
-                        Style.ALERT).show();
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        Crouton.makeText(
+                                CurrencyConverterActivity.this,
+                                "An error occurred while fetching the latest currency rates",
+                                Style.ALERT).show();
+                    }
+                });
             }
 
             return null;
@@ -225,8 +235,7 @@ public class CurrencyConverterActivity extends ActionBarActivity {
 
     }
 
-    private String getJSON(String URL) throws ClientProtocolException,
-            IOException {
+    private String getJSON(String URL) throws IOException {
 
         StringBuilder builder = new StringBuilder();
         HttpClient client = new DefaultHttpClient();
@@ -244,29 +253,6 @@ public class CurrencyConverterActivity extends ActionBarActivity {
         }
 
         return builder.toString();
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        /*if (adView != null) {
-			adView.destroy();
-		}*/
-        super.onDestroy();
-        Crouton.cancelAllCroutons();
-    }
-
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        //adView.loadAd(new AdRequest());
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //adView.loadAd(new AdRequest());
     }
 
 
@@ -314,5 +300,29 @@ public class CurrencyConverterActivity extends ActionBarActivity {
     public void onStop() {
         super.onStop();
         EasyTracker.getInstance().activityStop(this); // Add this method.
+    }
+
+    @Override
+    protected void onDestroy() {
+        adView.destroy();
+        super.onDestroy();
+        Crouton.cancelAllCroutons();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adView.resume();
+    }
+
+    @Override
+    public void onPause() {
+        adView.pause();
+        super.onPause();
     }
 }
