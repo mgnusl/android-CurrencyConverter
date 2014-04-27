@@ -13,4 +13,6 @@
     <string name="about">About</string>
     <string name="more">More</string>
 
+    <string name="no_inet">No internet connection available</string>
+
 </resources>

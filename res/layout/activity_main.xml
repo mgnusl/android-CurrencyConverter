@@ -60,7 +60,8 @@
             android:gravity="center_horizontal"
             android:inputType="numberDecimal"
             flatui:fieldStyle="flat"
-            flatui:cornerRadius="3dip"/>
+            flatui:cornerRadius="3dip"
+            flatui:textAppearance="light"/>
 
         <TextView
             android:id="@+id/fromCurrencyTV"
@@ -93,7 +94,8 @@
             android:hint="@string/to"
             android:inputType="numberDecimal"
             flatui:fieldStyle="flat"
-            flatui:cornerRadius="3dip"/>
+            flatui:cornerRadius="3dip"
+            flatui:textAppearance="light"/>
 
         <TextView
             android:id="@+id/toCurrencyTV"
